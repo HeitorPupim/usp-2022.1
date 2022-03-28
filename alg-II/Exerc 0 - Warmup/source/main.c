@@ -8,41 +8,52 @@ typedef struct{
     float nota;
 }Contato;
 
-void ler(Contato *vector, int vectorSize, FILE *file){
-    
+// lê e armazena no vetor os dados do arquivo.
+void lerArquivo(Contato *vector, int vectorSize, FILE *file){
     fread(vector, sizeof(Contato), vectorSize, file);
-    for (int i = 0; i < vectorSize; i++){
-        printf("\nNUSP: %d\nNome: %s\nCurso:%s \nNota:%.2f", vector[i].nUSP, vector[i].nomeCompleto, vector[i].curso, vector[i].nota);
-    }
-    printf("\n");
     
 }
 
+//desaloca o vetor inteiro da memória.
 void limparMemoria(Contato* vector){
         free(vector);
 }
-
 
 int main(){
     Contato *vector;
     int vectorSize;
     long fileSize;
 
-    char* arquivo = "in_out/reg2.dat";
+    char* nomeArquivo = readline('\n');
 
-    FILE *file = fopen(arquivo, "rb");
+    /*
+    char* arkivo = readline('\n');
+    printf("%s", arkivo);
+    */
+
+    FILE *file = fopen(nomeArquivo, "rb");
 
     fseek(file, 0, SEEK_END);
     fileSize = ftell(file);
+    
     fseek(file, 0, SEEK_SET);
+    
+    printf("filesize: %ld", fileSize);
     vectorSize = fileSize/sizeof(Contato);
+    printf("vectorSize: %d", vectorSize);
 
     vector = (Contato*) malloc(vectorSize*sizeof(Contato));
 
-    ler(vector, vectorSize, file);
+    lerArquivo(vector, vectorSize, file);
+
+    for (int i = 0; i < vectorSize; i++){
+        printf("\nNUSP: %d\nNome: %s\nCurso: %s\nNota: %.2f", vector[i].nUSP, vector[i].nomeCompleto, vector[i].curso, vector[i].nota);
+    }
+    printf("\n");
 
     limparMemoria(vector);
 
+    free(nomeArquivo);
     fclose(file);
 
     return 0;
