@@ -2,37 +2,48 @@
 #include <util.h>
 #include <string.h>
 
-
-// #include <operacoes.h>
-
-
 typedef struct{
     int nUSP;
     char nomeCompleto[50], curso[50];
     float nota;
 }Contato;
 
-void ler(char arq[]){
-    Contato c;
-    FILE *file = fopen(arq, "rb");
-    int contador = 0;
-    if (file){
-        while (!feof(file)){
-            if(fread(&c, sizeof(Contato), 1 , file))
-            printf("\nNUSP: %d\nNome: %s\nCurso:%s \nNota:%.2f", c.nUSP, c.nomeCompleto, c.curso, c.nota);
-            contador +=1;
-            printf("\n Contador = %d", contador);
-        }
-        fclose(file);
+void ler(Contato *vector, int vectorSize, FILE *file){
+    
+    fread(vector, sizeof(Contato), vectorSize, file);
+    for (int i = 0; i < vectorSize; i++){
+        printf("\nNUSP: %d\nNome: %s\nCurso:%s \nNota:%.2f", vector[i].nUSP, vector[i].nomeCompleto, vector[i].curso, vector[i].nota);
     }
-    else    printf("\nErro ao abrir o arqivo! \n");
+    printf("\n");
+    
+}
+
+void limparMemoria(Contato* vector){
+        free(vector);
 }
 
 
 int main(){
-    char arquivo[] = {"/home/heitor/workspace/usp-2022.1/alg-II/Exerc 0 - Warmup/in_out/reg2.dat"};
+    Contato *vector;
+    int vectorSize;
+    long fileSize;
 
-    ler(arquivo);
+    char* arquivo = "in_out/reg2.dat";
+
+    FILE *file = fopen(arquivo, "rb");
+
+    fseek(file, 0, SEEK_END);
+    fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    vectorSize = fileSize/sizeof(Contato);
+
+    vector = (Contato*) malloc(vectorSize*sizeof(Contato));
+
+    ler(vector, vectorSize, file);
+
+    limparMemoria(vector);
+
+    fclose(file);
 
     return 0;
 }
