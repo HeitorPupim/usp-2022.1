@@ -49,7 +49,7 @@ void lerPrimeiraMetade(ALUNO *aluno, int vectorSize, FILE *file){
 }
 
 void lerSegundaMetade(ALUNO *aluno, int vectorSize, FILE *file){
-    fread(aluno, sizeof(ALUNO), vectorSize/2, file);
+    fseek(file, sizeof(ALUNO)*(vectorSize/2), SEEK_SET);
     fread(aluno, sizeof(ALUNO), vectorSize/2, file);
     for (int i = 0; i < vectorSize/2; i++){
         printf("nUSP: %d\nNome: %s\nCurso: %s\nNota: %.2f\n", aluno[i].nUSP, aluno[i].nomeCompleto, aluno[i].curso, aluno[i].nota);
@@ -60,7 +60,7 @@ void lerSegundaMetade(ALUNO *aluno, int vectorSize, FILE *file){
 }
 
 void lerIntervalos(ALUNO *aluno, FILE *file,int inicioIntervalo,int fimIntervalo){
-    fread(aluno, sizeof(ALUNO), (inicioIntervalo -1), file);
+    fseek(file, sizeof(ALUNO)*(inicioIntervalo-1), SEEK_SET);
     fread(aluno, sizeof(ALUNO), (fimIntervalo - inicioIntervalo)+1, file);
     for (int i = 0; i <(fimIntervalo - inicioIntervalo) +1 ; i++){
         printf("nUSP: %d\nNome: %s\nCurso: %s\nNota: %.2f\n", aluno[i].nUSP, aluno[i].nomeCompleto, aluno[i].curso, aluno[i].nota);
@@ -71,7 +71,7 @@ void lerIntervalos(ALUNO *aluno, FILE *file,int inicioIntervalo,int fimIntervalo
 }
 
 void lerEspecifico(ALUNO *aluno, FILE *file, int especifico){
-    fread(aluno, sizeof(ALUNO), (especifico -1), file);
+    fseek(file, sizeof(ALUNO)*(especifico-1), SEEK_SET);
     fread(aluno, sizeof(ALUNO), 1, file);
     for (int i = 0; i <1 ; i++){
         printf("nUSP: %d\nNome: %s\nCurso: %s\nNota: %.2f\n", aluno[i].nUSP, aluno[i].nomeCompleto, aluno[i].curso, aluno[i].nota);
