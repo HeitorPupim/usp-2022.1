@@ -1,15 +1,22 @@
-SRC=./source/*.c
-INCLUDE=-I./include/
-BIN=./bin
+MAIN = main.c cod.h cod.c
+#Adicionar variáveis para outros arquivos .c que precisar na compilação
+#Ex: STUDENT = Student.chec
+#FILEHANDLER = FileHandler.c FixedField.c
+BINARY = main
+NAME = FILEFIELDS
 
+#adicionar todos os .c que serão compilados ao lado do $(MAIN)
 all:
-	gcc $(SRC) -g -lm -Wall -Werror -Wextra $(INCLUDE) -o $(BIN)
+	gcc -Wall -g $(MAIN) -o $(BINARY)
 
 run:
-	$(BIN)
-
-clean:
-	rm $(BIN)
+	./$(BINARY)
 
 valgrind:
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-leak-kinds=all --show-reachable=yes ./$(BIN)
+	valgrind --tool=memcheck --leak-check=full  --track-origins=yes --show-leak-kinds=all --show-reachable=yes ./$(BINARY)
+
+zip:
+	@zip -r $(NAME).zip *
+
+clean:
+	@rm *.o
