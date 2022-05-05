@@ -1,0 +1,59 @@
+Exercício 5 
+-----------------------------------------------
+Executar o arquivo Game.java na pasta game.main
+-----------------------------------------------
+----observações iniciais:
+Como alguns "atributos" das classes ficaram "em aberto", realizamos algumas coisas que fizessem sentido para nós quando fomos formular o "jogo".
+
+O jogo necessita de 2 jogadores em que:
+
+jogador 1 ---> será o SuperHeroi
+jogador 2 ---> será o Vilão
+
+Cada personagem terá inicialmente 100 de HP (vida). No caso do Vilão, como ele possui "anos de Prisão", a quantidade de anos de prisão foi considerado um adicional de vida. Ex: vilão Coringa tem 30 anos de prisão, então ele possui 130 de HP ( quanto mais tempo de prisão, mais "robusto" é o vilão).
+
+Os jogadores serão solicitados para registrar os atributos do seu personagem:
+
+- SuperHeroi <--- NomeVidaReal (nomeDoPlayer1 - String); Nome (nomeDoPersonagem - String); qtdeSuperPoderes(int)
+
+- Vilão	     <--- NomeVidaReal (nomeDoPlayer2 - String); Nome (nomeDoPersonagem - String); qtdeSuperPoderes(int); anosPrisão(int)
+
+
+Cada "Personagem" será configurado com a qtd. de superpoderes que o usuário quiser..
+
+-SuperPoder <--- Nome(nomeDoSuperPoder); categoria([DMG]).
+---> a categoria é o "dano" do superpoder, por ex, se configurar o "dano" como 3, a quantidade será multiplicada por 3. Futuramente, o jogador poderá selecionar a "força" do ataque e selecionar o poder que será multiplicado pelo "DMG (damage/dano)" do superpoder.
+
+-> os ataques tem uma chance de acerto de 50%. Quando "acertar" o ataque, será exibido a qtde de vida restante do personagem atacado. Quando o "errar" o ataque, será imprimido uma mensagem de "(personagem) defendeu o ataque!"
+
+
+-----------------------------------------------
+Input e Ouput do jogo:
+-----------------------------------------------
+o jogo inicia com o player1 - herói , que deve inserir:
+
+- Nome do jogador1(String)
+- Nome do SuperHeroi (String)
+- quantidade de poderes que o SuperHerói terá (int)
+para cada superpoder, ele deverá configurar:
+	- Nome do superpoder(String )
+	- Categoria do Superpoder "multiplicador de Dano/DMG" (int)
+
+
+agora é a vez do jogador 2 configurar seu vilão:
+- Nome do jogador2(String)
+- Nome do Vilao (String)
+- Anos de prisão do Vilão(int) --> será somado no HP do vilão.
+- quantidade de poderes que o Vilão terá (int)
+para cada superpoder, ele deverá configurar:
+	- Nome do superpoder (String )
+	- Categoria do Superpoder "multiplicador de Dano/DMG" (int)
+
+Após configurados os personagens, ocorre uma alternância de ataques. O player 1 começa atacando e depois é a vez do player2.. 
+
+É exibido o HP do alvo e o jogo pergunta qual ataque o jogador quer utilizar e deverá ser inserido o número em inteiro que representa o poder ( é exibido no programa)
+
+-> depois de selecionado, o programa pergunta qual é a intensidade do ataque. Se o ataque for bem suscedido, é exibido a quantidade de vida restante. Caso contrário, é exibido uma mensagem de que o personagem defendeu o ataque.
+
+-> Os jogadores duelam até que os seus personagens tenham a vida zerada. Quando isso ocorrer, é exibido o vencedor do jogo.
+
