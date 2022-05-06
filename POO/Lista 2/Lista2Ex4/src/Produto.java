@@ -35,10 +35,10 @@ public class Produto {
 		return qtdeEstoque;
 	}
 
-	public void insereEstoque(int qtde){
+	public boolean insereEstoque(int qtde){
 		this.qtdeEstoque = this.qtdeEstoque + qtde;
 		System.out.printf("Nova quantidade em estoque: %d\n", this.qtdeEstoque);
-		
+		return true;
 	}
 	
 	public void retiraEstoque(int qtde) {
