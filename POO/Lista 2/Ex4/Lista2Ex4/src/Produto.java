@@ -42,7 +42,7 @@ public class Produto {
 	}
 	
 	public void retiraEstoque(int qtde) {
-		System.out.printf("Quantidade disponível antes da retirada: %d\n", this.qtdeEstoque);
+		System.out.printf("Quantidade disponivel antes da retirada: %d\n", this.qtdeEstoque);
 		this.qtdeEstoque = this.qtdeEstoque - qtde;
 		
 		if (qtde > this.qtdeEstoque){

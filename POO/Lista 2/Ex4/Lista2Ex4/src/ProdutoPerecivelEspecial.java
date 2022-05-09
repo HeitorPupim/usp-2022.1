@@ -7,8 +7,8 @@ public class ProdutoPerecivelEspecial extends ProdutoPerecivel {
 	}
 
 	public void notaControle() {
-		System.out.println("Código: " + this.codigo + "\n" +
-						   "Descrição: " + this.descricao + "\n" + 
+		System.out.println("Codigo: " + this.codigo + "\n" +
+						   "Descricao: " + this.descricao + "\n" + 
 							"Qtde Estoque: " + this.qtdeEstoque + "\n"+
 						   "Validade: " + this.dataValidade + "\n");
 	}
