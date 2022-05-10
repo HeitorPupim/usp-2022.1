@@ -21,13 +21,13 @@ public class ProdutoPerecivel extends Produto {
 	public void retiraEstoque(LocalDate dataRetirada, int qtde) {
 		
 		if (dataRetirada.plusDays(30).isAfter(this.dataValidade)){
-			System.out.println("Zerando o estoque! Produtos vão vencer em 30 dias.");
+			System.out.println("Zerando o estoque! Produtos vao vencer em 30 dias.");
 			this.qtdeEstoque = 0;
 		}
 		else {
 			System.out.printf("Retirando  %d produtos\n", qtde);
 			this.qtdeEstoque = this.qtdeEstoque - qtde;
-			System.out.printf("Quantidade após a retirada: %d\n", this.qtdeEstoque);
+			System.out.printf("Quantidade apos a retirada: %d\n", this.qtdeEstoque);
 		}
 	}
 	
@@ -35,7 +35,7 @@ public class ProdutoPerecivel extends Produto {
 		if (this.qtdeEstoque == 0) {
 			System.out.printf("Inserindo %d produtos no estoque\n", qtde);
 			this.qtdeEstoque = qtde;
-			System.out.printf("Quantidade de produtos após inserir no estoque: %d\n", this.qtdeEstoque);
+			System.out.printf("Quantidade de produtos apos inserir no estoque: %d\n", this.qtdeEstoque);
 			return true;
 		}
 		else return false;
