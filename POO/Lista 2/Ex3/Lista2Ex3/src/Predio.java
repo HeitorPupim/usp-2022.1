@@ -14,7 +14,7 @@ abstract class Predio implements PegadaDeCarbono {
 	}
 	
 	public void tamanhoDoPredio() {
-		System.out.println("O prédio possui " + this.qtdeAndares + " andares!");
+		System.out.println("O predio possui " + this.qtdeAndares + " andares!");
 	}
 	@Override
 	public int getPegadaDeCarbono(){

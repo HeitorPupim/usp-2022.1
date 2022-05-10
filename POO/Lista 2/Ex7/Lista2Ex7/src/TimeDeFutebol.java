@@ -24,7 +24,7 @@ public class TimeDeFutebol implements Comparable<TimeDeFutebol> {
 	}
 
 	public int pontosDoTime() {
-		System.out.println("Pontuação final "+this.nomeDoTime +" :" + ((nVitorias* 3) + (nEmpates)));
+		System.out.println("Pontuacao final "+this.nomeDoTime +" :" + ((nVitorias* 3) + (nEmpates)));
 		return (nVitorias* 3) + (nEmpates);
 	}
 
@@ -64,7 +64,7 @@ public class TimeDeFutebol implements Comparable<TimeDeFutebol> {
 		else if(pontuacao < time.pontuacao) { //time na frente
 			return 10;
 		}
-		else return -1; //time atrás
+		else return -1; //time atrï¿½s
 		
 		
 	}

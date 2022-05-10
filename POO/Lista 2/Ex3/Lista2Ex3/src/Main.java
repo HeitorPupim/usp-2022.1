@@ -37,8 +37,8 @@ public class Main {
 	
 	}
 
-	// Quando modificada, a classe Predio abstrata não pode ser instanciada, 
-	// ou seja, não podemos escrever new Predio(atributos)
+	// Quando modificada, a classe Predio abstrata nï¿½o pode ser instanciada, 
+	// ou seja, nao podemos escrever new Predio(atributos)
 	// no entanto, as classes herdeiras Casa e Escola, podem ser instanciadas normamente
 	// pois herdam os atributos da classe pai Predio
 }
