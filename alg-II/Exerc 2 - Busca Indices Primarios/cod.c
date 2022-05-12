@@ -8,9 +8,9 @@ struct index_st{
 
 struct registro_st{
     int nUSP;
-    char* nome;
-    char* sobrenome;
-    char* curso;
+    char nome[25];
+    char sobrenome[25];
+    char curso[25];
     float nota;
 };
 
@@ -29,20 +29,25 @@ INDEX* criarIndex(){//cria o nó cabeça do index
 
 void addIndex(INDEX* index, REGISTRO* registro, long byteOffset){
     
-    if(index->proxIndex == NULL){
+    if(index->id == registro->nUSP){
+        printf("O Registro ja existe!\n");
+    }else{
+        if(index->proxIndex == NULL){
         INDEX* newIndex = (INDEX*)malloc(sizeof(INDEX));
         newIndex->id = registro->nUSP;
         newIndex->byteOffset=byteOffset;
         newIndex->proxIndex=NULL;
-    }else{
-        if(index->id == registro->nUSP) printf("O Registro ja existe!\n");
-        index = index->proxIndex;
-        addIndex(index, registro, byteOffset);
+        index->proxIndex = newIndex;
+        }
+        else{
+            index = index->proxIndex;
+            addIndex(index, registro, byteOffset);
+       }
     }
 }
 
 char* readline(char parada){
-    char* linha = NULL;
+    char* linha=(char*)malloc(25) ;
     char tmp;
     int count = 0;
 
@@ -50,10 +55,6 @@ char* readline(char parada){
     {
         tmp = getchar();
         if (tmp == '\r') tmp = getchar(); // para ignorar o \r do windows
-        if (count % BUFFER == 0) 
-        {
-            linha = realloc(linha, sizeof(char)*(count + BUFFER));
-        }
         if (tmp != parada) 
         {
             linha[count++] = tmp; 
@@ -65,73 +66,118 @@ char* readline(char parada){
     return linha;
 }//le uma linha de input até parada e salva em uma variavel 
 
-long insert(FILE* file, INDEX* index){//precisa arruma
+long insert(FILE* file, INDEX* no){//precisa arruma
 
     REGISTRO* reg = (REGISTRO*)malloc(sizeof(REGISTRO));
-    fseek(file,0, SEEK_END);
     long byteOffset = ftell(file);
+
+    fseek(file,0, SEEK_END);
+
     scanf("%d",&reg->nUSP);
-    printf("nUSP: %i\n",reg->nUSP);
     fwrite(&reg->nUSP,sizeof(reg->nUSP),1,file);
+    
     char* pula = readline(',');//o primeiro caracter que readline vai encontra é ','.a função dessa linha é avançar o ',' apos o numUSP 
     free(pula);
-    reg->nome = readline(',');
-    printf("nome: %s\n",reg->nome);
-    fwrite(reg->nome,sizeof(reg->nome),1,file);
-    reg->sobrenome = readline(',');
-    printf("sobrenome: %s\n",reg->sobrenome);
-    fwrite(reg->sobrenome,sizeof(reg->nome),1,file);
-    reg->curso = readline(',');
-    printf("curso: %s\n",reg->curso);
-    fwrite(reg->curso,sizeof(reg->curso),1,file);
+
+    char* nome = readline(',');
+    fwrite(nome,sizeof(reg->nome),1,file);
+    free(nome);
+
+    char* sobrenome = readline(',');
+    fwrite(sobrenome,sizeof(reg->nome),1,file);
+    free(sobrenome);
+
+    char* curso = readline(',');
+    fwrite(curso,sizeof(reg->curso),1,file);
+    free(curso);
+
     scanf("%e",&reg->nota);
-    printf("nota: %.2f\n",reg->nota);
     fwrite(&reg->nota,sizeof(reg->nota),1,file);
-    printf("----------------------------------\n");
-    addIndex(index, reg, byteOffset);
+    
+
+    addIndex(no, reg, byteOffset);
     free(reg);
+
     return byteOffset; 
 }
 
 void lerRegistros(FILE* file,long byteOffset){
-    REGISTRO* reg = (REGISTRO*)malloc(sizeof(REGISTRO));
-    char* nome;
-    fseek(file,byteOffset, SEEK_SET);printf("-------------------------------\n");
-    fread(&reg->nUSP, sizeof(reg->nUSP),1, file);
-    printf("nUSP: %d\n",reg->nUSP);
-    fread(nome,sizeof(nome),1,file);
-    printf("nome: %s\n",nome);
-    fread(reg->sobrenome,sizeof(reg->sobrenome),1,file);
-    printf("Sobrenome: %s\n",reg->sobrenome);
-    fread(reg->curso,sizeof(reg->curso),1,file);
-    printf("Curso: %s\n",reg->curso);
-    fread(&reg->nota,sizeof(reg->nota),1,file);
-    printf("Nota: %.2f\n",reg->nota);
-    printf("-------------------------------\n");
-    free(nome);
-    free(reg);
+    if(byteOffset != -1){
+        REGISTRO* reg = (REGISTRO*)malloc(sizeof(REGISTRO));
+        fseek(file,byteOffset, SEEK_SET);
+        printf("-------------------------------\n");
 
-}
+        fread(&reg->nUSP, sizeof(reg->nUSP),1, file);
+        printf("nUSP: %d\n",reg->nUSP);
 
-void search(int id, INDEX* noCabeca){
+        char nome[25];
+        fread(&nome,sizeof(nome),1,file);
+        printf("nome: %s\n",nome);
+
+
+        fread(&reg->sobrenome,sizeof(reg->sobrenome),1,file);
+        printf("Sobrenome: %s\n",reg->sobrenome);
+
+        fread(&reg->curso,sizeof(reg->curso),1,file);
+        printf("Curso: %s\n",reg->curso);
+
+        fread(&reg->nota,sizeof(reg->nota),1,file);
+        printf("Nota: %.2f\n",reg->nota);
+
+        printf("-------------------------------\n");
+        free(reg);
+    }
+
+}//ainsda tem q arrumar
+
+long search(int id, INDEX* noCabeca){
     INDEX* index= (INDEX*)malloc(sizeof(INDEX));
     index = noCabeca->proxIndex;
     do{
-        if(index->nUSP == id){
+        if(index->id == id){
             long byteOffset = index->byteOffset;
             return byteOffset;
         }else{
             if(index->proxIndex ==NULL){
                 printf("Registro nao encontrado!\n");
+                return -1;
             }else{
                 index= index->proxIndex;
             }
         }
 
+    }while(1==1);
+}   
+
+void apagaRegistro(int id ,INDEX* noCabeca){
+    INDEX* index= noCabeca;
+    INDEX* aux;
+    if(index->proxIndex->id == id){
+        aux= index->proxIndex;
+        index->proxIndex = aux->proxIndex;
+        free(aux);
+    }else{ 
+        index= index->proxIndex;
+        apagaRegistro(id, index);
     }
 }
 
-
-void fechar(FILE* file){
-    fclose(file);
+void deletarRegistro(FILE* file, long byteOffset,int id, INDEX* noCabeca){
+    if (byteOffset!=-1){
+        fseek(file,byteOffset, SEEK_SET);
+        fputs("|***",file);
+        apagaRegistro(id,noCabeca);
+    }
 }
+
+void sair(FILE* file, INDEX* noCabeca){
+    INDEX* index = noCabeca;
+    if(index->proxIndex != NULL){
+        sair(file,index->proxIndex);
+    }else fclose(file);
+    free(index);
+
+}
+/*void fechar(FILE* file){
+    fclose(file);
+}*/
