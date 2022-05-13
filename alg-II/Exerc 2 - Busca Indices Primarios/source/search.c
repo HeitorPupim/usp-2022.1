@@ -1,4 +1,6 @@
 #include "cabecalho.h"
+#include <search.h>
+
 
 void lerRegistros(FILE* file,long byteOffset){
     if(byteOffset != -1){

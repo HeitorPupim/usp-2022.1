@@ -6,5 +6,4 @@ void sair(FILE* file, INDEX* noCabeca){
         sair(file,index->proxIndex);
     }else fclose(file);
     free(index);
-
 }

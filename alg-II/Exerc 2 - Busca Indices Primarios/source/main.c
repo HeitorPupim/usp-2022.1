@@ -1,4 +1,9 @@
-#include "cabecalho.h"
+#include <cabecalho.h>
+#include <insert.h>
+#include <util.h>
+#include <search.h>
+#include <delete.h>
+#include <exit.h>
 
 int main(){
 
@@ -7,7 +12,9 @@ int main(){
     int id;
     long byteOffset;
     int fim=0;
+
     INDEX* no =criarIndex();
+
     do{
         scanf("%s",operacao);
         switch(operacao[0]){
@@ -30,5 +37,6 @@ int main(){
         }   
     }while(fim == 0);
 
-    return 0;
+
+    return EXIT_SUCCESS;
 }

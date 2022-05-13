@@ -1,4 +1,6 @@
-#include"cabecalho.h"
+#include "cabecalho.h"
+#include <delete.h>
+
 
 long deleteSearch(int id, INDEX* noCabeca){
     INDEX* index= (INDEX*)malloc(sizeof(INDEX));
@@ -18,7 +20,7 @@ long deleteSearch(int id, INDEX* noCabeca){
     }while(1==1);
 } 
 
-void apagaIndex(int id ,INDEX* noCabeca){
+void deleteIndex(int id ,INDEX* noCabeca){
     INDEX* index= noCabeca;
     INDEX* aux;
     if(index->proxIndex->id == id){
@@ -27,7 +29,7 @@ void apagaIndex(int id ,INDEX* noCabeca){
         free(aux);
     }else{ 
         index= index->proxIndex;
-        apagaIndex(id, index);
+        deleteIndex(id, index);
     }
 }
 
@@ -36,6 +38,6 @@ void deletarRegistro(FILE* file, int id, INDEX* noCabeca){
     if (byteOffset!=-1){
         fseek(file,byteOffset, SEEK_SET);
         fputs("|***",file);
-        apagaIndex(id,noCabeca);
+        deleteIndex(id,noCabeca);
     }
 }

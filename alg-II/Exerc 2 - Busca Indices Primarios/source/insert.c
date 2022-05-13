@@ -1,11 +1,13 @@
 #include "cabecalho.h"
+#include <insert.h>
+#include <util.h>
 
 FILE* abrirArquivo(){
     FILE* arquivo = fopen("bin.data","w+b");
     return arquivo;
 }
 
-INDEX* criarIndex(){//cria o nó cabeça do index
+INDEX* criarIndex(){
     INDEX* index = (INDEX*)malloc(sizeof(INDEX));
     index->id = -1;
     index->byteOffset = -1;
@@ -32,28 +34,7 @@ void addIndex(INDEX* index, REGISTRO* registro, long byteOffset){
     }
 }
 
-char* readline(char parada){
-    char* linha=(char*)malloc(25) ;
-    char tmp;
-    int count = 0;
-
-    do
-    {
-        tmp = getchar();
-        if (tmp == '\r') tmp = getchar(); // para ignorar o \r do windows
-        if (tmp != parada) 
-        {
-            linha[count++] = tmp; 
-        }
-    } while (tmp != parada || tmp == EOF);
-
-    linha[count] = '\0'; 
-    
-    return linha;
-}//le uma linha de input até parada e salva em uma variavel 
-
-void insert(FILE* file, INDEX* no){//precisa arruma
-
+void insert(FILE* file, INDEX* no){
     REGISTRO* reg = (REGISTRO*)malloc(sizeof(REGISTRO));
     long byteOffset = ftell(file);
 
@@ -62,7 +43,7 @@ void insert(FILE* file, INDEX* no){//precisa arruma
     scanf("%d",&reg->nUSP);
     fwrite(&reg->nUSP,sizeof(reg->nUSP),1,file);
     
-    char* pula = readline(',');//o primeiro caracter que readline vai encontra é ','.a função dessa linha é avançar o ',' apos o numUSP 
+    char* pula = readline(',');
     free(pula);
 
     char* nome = readline(',');
