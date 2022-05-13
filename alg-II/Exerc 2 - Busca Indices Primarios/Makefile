@@ -1,4 +1,4 @@
-MAIN = main.c cod.h cod.c
+MAIN = main.c cabecalho.h delete.c exit.c insert.c search.c
 #Adicionar variáveis para outros arquivos .c que precisar na compilação
 #Ex: STUDENT = Student.chec
 #FILEHANDLER = FileHandler.c FixedField.c

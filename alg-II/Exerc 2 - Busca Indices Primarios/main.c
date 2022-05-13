@@ -1,4 +1,4 @@
-#include "cod.h"
+#include "cabecalho.h"
 
 int main(){
 
@@ -12,7 +12,7 @@ int main(){
         scanf("%s",operacao);
         switch(operacao[0]){
             case('i'):
-                byteOffset = insert(file, no);
+                insert(file, no);
                 break;
             case('s'):
                 scanf("%d",&id);
@@ -21,18 +21,14 @@ int main(){
                 break;
             case('d'):
                 scanf("%d",&id);
-                byteOffset=search(id,no);
-                deletarRegistro(file, byteOffset, id, no);
+                deletarRegistro(file, id, no);
                 break;
             case('e'):
                 sair(file,no);
                 fim = 1;
                 break;
-
         }   
     }while(fim == 0);
 
-
-    //fechar(file);
     return 0;
 }
