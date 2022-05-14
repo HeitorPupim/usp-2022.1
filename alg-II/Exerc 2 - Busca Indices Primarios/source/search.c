@@ -32,7 +32,8 @@ void lerRegistros(FILE* file,long byteOffset){
 }
 
 long search(int id, INDEX* noCabeca){
-    INDEX* index= (INDEX*)malloc(sizeof(INDEX));
+    INDEX* index =noCabeca;
+    //INDEX* index= (INDEX*)malloc(sizeof(INDEX));
     index = noCabeca;
     do{
         if(index->id == id){
@@ -46,6 +47,5 @@ long search(int id, INDEX* noCabeca){
                 index= index->proxIndex;
             }
         }
-
     }while(1==1);
 }  

@@ -3,8 +3,8 @@
 
 
 long deleteSearch(int id, INDEX* noCabeca){
-    INDEX* index= (INDEX*)malloc(sizeof(INDEX));
-    index = noCabeca;
+    //INDEX* index= (INDEX*)malloc(sizeof(INDEX));
+    INDEX* index = noCabeca;
     do{
         if(index->id == id){
             long byteOffset = index->byteOffset;
@@ -18,6 +18,7 @@ long deleteSearch(int id, INDEX* noCabeca){
         }
 
     }while(1==1);
+    
 } 
 
 void deleteIndex(int id ,INDEX* noCabeca){
