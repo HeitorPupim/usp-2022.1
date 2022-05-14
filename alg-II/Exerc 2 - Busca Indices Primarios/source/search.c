@@ -1,5 +1,5 @@
-#include "cabecalho.h"
-#include <search.h>
+#include <cabecalho.h>
+
 
 
 void lerRegistros(FILE* file,long byteOffset){

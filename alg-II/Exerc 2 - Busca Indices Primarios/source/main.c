@@ -8,7 +8,7 @@
 int main(){
 
     FILE* file = abrirArquivo();
-    char operacao[6];
+    char operacao[6]; 
     int id;
     long byteOffset;
     int fim=0;
@@ -32,7 +32,7 @@ int main(){
                 break;
             case('e'):
                 sair(file,no);
-                fim = 1;
+                fim = 1; //sinalizador para o do while
                 break;
         }   
     }while(fim == 0);

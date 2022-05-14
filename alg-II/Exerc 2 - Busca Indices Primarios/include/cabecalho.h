@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 
+
 #define BUFFER 16
 
 typedef struct index_st{

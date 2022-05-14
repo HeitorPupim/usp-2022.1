@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "insert.h": "c",
+        "cabecalho.h": "c"
     }
 }

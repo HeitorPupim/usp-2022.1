@@ -3,8 +3,9 @@
 
 #include <cabecalho.h>
 
+
 /*
- Lê os registros colocados no arquivo e printa as informações contidas nele com a formatação desejada pelo exercício. 
+    Lê os registros colocados no arquivo e printa as informações contidas nele com a formatação desejada pelo exercício. 
 */
 void lerRegistros(FILE* file,long byteOffset);
 
