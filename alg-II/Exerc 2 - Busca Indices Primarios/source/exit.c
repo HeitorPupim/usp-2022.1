@@ -1,4 +1,5 @@
 #include "cabecalho.h"
+#include <exit.h>
 
 void sair(FILE* file, INDEX* noCabeca){
     INDEX* index = noCabeca;

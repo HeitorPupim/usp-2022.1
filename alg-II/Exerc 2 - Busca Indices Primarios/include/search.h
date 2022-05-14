@@ -3,8 +3,16 @@
 
 #include <cabecalho.h>
 
-long search(int id, INDEX* noCabeca);
+/*
+ Lê os registros colocados no arquivo e printa as informações contidas nele com a formatação desejada pelo exercício. 
+*/
 void lerRegistros(FILE* file,long byteOffset);
+
+/*
+    Realiza a busca pelo id inserido no parâmetro, caso existir retorna o byteOffset desse Index, caso contrário, retorna -1 e printa "Registro não encontrado!"
+*/
+long search(int id, INDEX* noCabeca);
+
 
 
 #endif //SEARCH_H

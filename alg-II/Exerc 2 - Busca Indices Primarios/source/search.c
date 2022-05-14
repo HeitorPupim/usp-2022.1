@@ -9,21 +9,21 @@ void lerRegistros(FILE* file,long byteOffset){
         printf("-------------------------------\n");
 
         fread(&reg->nUSP, sizeof(reg->nUSP),1, file);
-        printf("nUSP: %d\n",reg->nUSP);
+        printf("USP number: %d\n",reg->nUSP);
 
+        // verificar essa alocação estática
         char nome[25];
         fread(&nome,sizeof(nome),1,file);
-        printf("nome: %s\n",nome);
-
+        printf("Name: %s\n",nome);
 
         fread(&reg->sobrenome,sizeof(reg->sobrenome),1,file);
-        printf("Sobrenome: %s\n",reg->sobrenome);
+        printf("Surname: %s\n",reg->sobrenome);
 
         fread(&reg->curso,sizeof(reg->curso),1,file);
-        printf("Curso: %s\n",reg->curso);
+        printf("Course: %s\n",reg->curso);
 
         fread(&reg->nota,sizeof(reg->nota),1,file);
-        printf("Nota: %.2f\n",reg->nota);
+        printf("Test grade: %.2f\n",reg->nota);
 
         printf("-------------------------------\n");
         free(reg);
