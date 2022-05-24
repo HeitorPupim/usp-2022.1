@@ -51,7 +51,7 @@ void insert(FILE* file, INDEX* no){
     free(nome);
 
     char* sobrenome = readline(',');
-    fwrite(sobrenome,sizeof(reg->nome),1,file);
+    fwrite(sobrenome,sizeof(reg->sobrenome),1,file);
     free(sobrenome);
 
     char* curso = readline(',');

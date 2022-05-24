@@ -11,7 +11,6 @@ void lerRegistros(FILE* file,long byteOffset){
         fread(&reg->nUSP, sizeof(reg->nUSP),1, file);
         printf("USP number: %d\n",reg->nUSP);
 
-        // verificar essa alocação estática
         char nome[25];
         fread(&nome,sizeof(nome),1,file);
         printf("Name: %s\n",nome);
