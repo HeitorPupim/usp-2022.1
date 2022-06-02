@@ -1,4 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <cabecalho.h>
+#include <search.h>
+#include <util.h>
+#include <insert.h>
+
+
+
 
 int main(){
 
@@ -22,7 +30,38 @@ int main(){
     2. 
     utilizar 4096 bytes no arquivo
 */
+    FILE* file = abrirArquivo();
+    char operacao[6]; 
+    int id;
+    long byteOffset;
+    int fim=0;
 
+    INDEX* no =criarIndex();
 
-    return 0;
+    do{
+        scanf("%s",operacao);
+        switch(operacao[0]){
+            case('i'): //insert
+                insert(file, no);
+                break;
+            case('s'): //search
+                scanf("%d",&id);
+                byteOffset=search(id,no); 
+                lerRegistros(file,byteOffset);
+                break;
+            case('d'): //delete
+                scanf("%d",&id);
+                deletarRegistro(file, id, no);
+                break;
+            case('u'): //update
+    	        //qnd implementar a função de update, colocar as funçoes aqui.
+                break;
+            case('e'): //exit
+                sair(file,no);
+                fim = 1; //sinalizador para o do while
+                break;
+        }   
+    }while(fim == 0);
+
+    return EXIT_SUCCESS;
 }
