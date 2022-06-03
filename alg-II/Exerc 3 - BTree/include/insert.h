@@ -44,6 +44,6 @@ void addIndex(INDEX* index, PAGE* page,FILE* indexFile);
 Aloca espaço para um novo REGISTRO.
 Lê o input do usuário para os campos do registro, aloca e escreve no arquivo. Quando terminar de escrever no arquvio, adiciona um novo Index
 */
-void insert(FILE* file, INDEX* index);
+long insert(FILE* file, INDEX* index);
 
 #endif //INSERT_H

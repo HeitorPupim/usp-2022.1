@@ -42,7 +42,8 @@ PAGE* abrirPage(FILE* indexFile, long byteOffset){
 long escreverPage(FILE* indexFile, PAGE* page){
     fseek(indexFile,0,SEEK_END);
     long byteOffset;
-    byteOffset = ftell();
+    /// *** acrescentei indexFile aqui, ftell estava vazia, tipo: ftell().
+    byteOffset = ftell(indexFile);
     fwrite(page,sizeof(PAGE),1,indexFile);
     return byteOffset;
 }
@@ -76,6 +77,7 @@ void addIndex(INDEX* index, REGISTRO* registro, long byteOffset){
 }
 */
 
+// *** no header tá como void insert(), alterei para long, pq nessa caso ele vai retornar o insert
 long insert(FILE* file, INDEX* no){
     REGISTRO* reg = (REGISTRO*)malloc(sizeof(REGISTRO));
     long byteOffset = ftell(file);
@@ -104,7 +106,8 @@ long insert(FILE* file, INDEX* no){
     scanf("%e",&reg->nota);
     fwrite(&reg->nota,sizeof(reg->nota),1,file);
     
-    INDEX index = criarIndex(reg->id,byteOffset);
+    // *** reg->id (nao existe campo id em reg) reg = REGISTRO
+    INDEX *index = criarIndex(reg->id,byteOffset);
     free(reg);
     return index;
 }
@@ -139,6 +142,8 @@ INDEXOVERFLOW* splitPage(PAGE* page, INDEX* index, FILE* indexFile){
     indexNulo.byteOffset = -1;
 
     if(index->id<page->index[NUMAXINDEX].id){ // verifica se o index é o maior de todos para fazer o split page.
+        
+        // *** numberOfIndex não existe, seria "NUMAXINDEX"?
         INDEX aux = page->index[numberOfIndex]; 
         addIndexPage(index,page); 
         newPage->index[NUMAXINDEX/2] = aux; //adiciona o índice na nova página,caso seja o maior
@@ -151,7 +156,7 @@ INDEXOVERFLOW* splitPage(PAGE* page, INDEX* index, FILE* indexFile){
         page->index[NUMAXINDEX/2 + 1 + i] = indexNulo;
     }
 
-    long byte1 = escreverPage(indexFile,Page); // registra o byte da página antiga
+    long byte1 = escreverPage(indexFile,page); // registra o byte da página antiga
     over->filhos[0] = byte1;
 
     long byte2 = escreverPage(indexFile,newPage);  //registra o byte da nova página
@@ -177,6 +182,8 @@ void addIndexOverPage(INDEXOVERFLOW* over, PAGE* page){
                 page->filhos[i+1]=over->filhos[1];
 
                 break;
+
+                // *** index não está definido aqui, seria "aux.id"?
             }else if(page->index[i].id == index->id){// index já existe 
                 printf("O Registro ja existe!\n");
                 break;
@@ -189,6 +196,7 @@ void addIndexOverPage(INDEXOVERFLOW* over, PAGE* page){
                     page->filhos[i]= over->filhos[0];
                     addfilho0 = false;
                 }else{
+                    // *** não existe "file" em page
                     auxFilho = page->file[i];
                     page->file[i] = over->filhos[1];
                     over->filhos[1]= auxFilho;
@@ -216,7 +224,7 @@ void addIndex(INDEX* index, PAGE* page,FILE* indexFile){
         if (page->index[NUMAXINDEX].id == index->id){
                 printf("O Registro ja existe!\n");
         }else if (page->index[NUMAXINDEX].id == index->id){
-            PAGE pageNew = abrirPage(indexFile, page->filhos[NUMAXINDEX]);
+            PAGE *pageNew = abrirPage(indexFile, page->filhos[NUMAXINDEX]);
             addIndex(index, pageNew, indexFile);
         }
         for(int i=0;i<NUMAXINDEX;i++){
@@ -224,7 +232,7 @@ void addIndex(INDEX* index, PAGE* page,FILE* indexFile){
                 printf("index ja existe\n");
                 break;
             }else if(page->index[i].id > index->id){
-                PAGE pageNew = abrirPage(indexFile, page->filhos[i]);
+                PAGE *pageNew = abrirPage(indexFile, page->filhos[i]);
                 addIndex(index, pageNew, indexFile);
             } 
 
