@@ -11,7 +11,7 @@ FILE* abrirArquivo();
 Cria o nó cabeça do INDEX (id = -1, byteOffset = -1, proxIndex =NULL)
 e retorna um INDEX*
 */
-INDEX* criarIndex();
+INDEX* criarIndex(int id, long byteOffset);
 
 /*
 Adiciona um index, sse já existir, printa ("O Registro ja existe!"),
@@ -26,7 +26,7 @@ PAGE* abrirPage(FILE* indexFile, long byteOffset);
 
 void addIndexPage(INDEX* index, PAGE* page);
 
-void addIndex(INDEX* index, PAGE* page,FILE* indexFile)
+void addIndex(INDEX* index, PAGE* page,FILE* indexFile);
 /*
 Aloca espaço para um novo REGISTRO.
 Lê o input do usuário para os campos do registro, aloca e escreve no arquivo. Quando terminar de escrever no arquvio, adiciona um novo Index

@@ -14,7 +14,6 @@
 #define AUX_FIELDS_SIZE_ON_PAGE (2+1) /*number o f key s and ” i s l e a f ” bool */
 #define FREE_SPACE_ON_PAGE (PAGESIZE - ( (MAXKEYS*4 )+(MAXKEYS*8 ) +(( MAXKEYS+1) *8 ) +3) )
 
-
 #define BUFFER 16
 
 typedef struct index_st{

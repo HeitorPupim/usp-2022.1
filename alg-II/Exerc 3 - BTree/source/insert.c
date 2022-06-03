@@ -15,7 +15,11 @@ INDEX* criarIndex(int id, long byteOffset){
 }
 
 PAGE* criarPage(){
-    INDEX index = addIndex(-1,0);
+    
+    INDEX index;
+    index.id = -1;
+    index.byteOffset = 0;
+
     PAGE* page = (PAGE*)malloc(PAGESIZE);
     page->ehFolha = true;
     page->numberOfIndex=0;
@@ -25,7 +29,7 @@ PAGE* criarPage(){
     for(int i=0;i<NUMAXINDEX;i++){
         page->index[i] = index;
     }
-    free(index);
+    //free(index);
     return page;
 }
 
@@ -91,19 +95,27 @@ long insert(FILE* file, INDEX* no){
 }
 
 void addIndexPage(INDEX* index, PAGE* page){
+    
+
     for(int i=0;i<NUMAXINDEX;i++){
-        if(page->index[i]->id == -1){//se page->index[i]=vazio,add o index
-            page->index[i]= index;
+
+        INDEX* aux = index;
+
+        if(page->index[i].id == -1){//se page->index[i]=vazio,add o index
+            INDEX aux;
+            aux.id = index->id;
+            aux.byteOffset = index->byteOffset;
+            page->index[i] = aux;
+
             break;
-        }else if(page->index[i]->id == index->id){// index já existe 
+        }else if(page->index[i].id == index->id){// index já existe 
             printf("O Registro ja existe!\n");
             break;
-        }else if(page->index[i]->id > index->id){
-            INDEX aux =page->index[i];
+        }else if(page->index[i].id > index->id){
+            INDEX* aux = &page->index[i];
             page->index[i];
             index = aux;
         }
-
     }
 }
 
