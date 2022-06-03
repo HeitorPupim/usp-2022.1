@@ -15,10 +15,9 @@ INDEX* criarIndex(int id, long byteOffset){
 }
 
 PAGE* criarPage(){
-    
     INDEX index;
     index.id = -1;
-    index.byteOffset = 0;
+    index.byteOffset = -1;
 
     PAGE* page = (PAGE*)malloc(PAGESIZE);
     page->ehFolha = true;
@@ -38,6 +37,22 @@ PAGE* abrirPage(FILE* indexFile, long byteOffset){
     fseek(indexFile,byteOffset,SEEK_SET);
     fread( &page, PAGESIZE,1,indexFile);
     return page;
+}
+
+long escreverPage(FILE* indexFile, PAGE* page){
+    fseek(indexFile,0,SEEK_END);
+    long byteOffset;
+    byteOffset = ftell();
+    fwrite(page,sizeof(PAGE),1,indexFile);
+    return byteOffset;
+}
+
+INDEXOVERFLOW* criarIndexOverflow(){
+    INDEXOVERFLOW* over = (INDEXOVERFLOW*)malloc(sizeof(INDEXOVERFLOW));
+    over->id = -1;
+    over->byteOffset=-1;
+    over->filhos[0]=-1;
+    over->filhos[1]=-1;
 }
 
 /*
@@ -96,55 +111,119 @@ long insert(FILE* file, INDEX* no){
 
 void addIndexPage(INDEX* index, PAGE* page){
     
-
     for(int i=0;i<NUMAXINDEX;i++){
-
-        INDEX* aux = index;
+        INDEX aux;
+        aux.id = index->id;
+        aux.byteOffset = index->byteOffset;
 
         if(page->index[i].id == -1){//se page->index[i]=vazio,add o index
-            INDEX aux;
-            aux.id = index->id;
-            aux.byteOffset = index->byteOffset;
             page->index[i] = aux;
-
             break;
         }else if(page->index[i].id == index->id){// index já existe 
             printf("O Registro ja existe!\n");
             break;
         }else if(page->index[i].id > index->id){
-            INDEX* aux = &page->index[i];
-            page->index[i];
-            index = aux;
+            INDEX* aux2 = &page->index[i];
+            page->index[i]=aux;
+            index = aux2;
         }
     }
 }
 
-INDEXOVERFLOW* splitPage(PAGE* page, INDEX index){
-    PAGE newPage = criarPage();
-    //terminar depois
+INDEXOVERFLOW* splitPage(PAGE* page, INDEX* index, FILE* indexFile){
+    PAGE* newPage = criarPage();
+    INDEXOVERFLOW* over = criarIndexOverflow();
+
+    INDEX indexNulo; //se o id do index der overflow, colocaremos um index nulo.
+    indexNulo.id = -1;
+    indexNulo.byteOffset = -1;
+
+    if(index->id<page->index[NUMAXINDEX].id){ // verifica se o index é o maior de todos para fazer o split page.
+        INDEX aux = page->index[numberOfIndex]; 
+        addIndexPage(index,page); 
+        newPage->index[NUMAXINDEX/2] = aux; //adiciona o índice na nova página,caso seja o maior
+    }else{ 
+        newPage->index[NUMAXINDEX/2] = index; // se não for o maior, adiciona o "menor dos maiores" na nova página
+    }
+    over->id = page->index[NUMAXINDEX/2].id;    //adiciona o id do split ao id do split page
+    for(int i=0; i<NUMAXINDEX/2; i++){
+        newPage->index[i] = page->index[NUMAXINDEX/2 + 1 + i];
+        page->index[NUMAXINDEX/2 + 1 + i] = indexNulo;
+    }
+
+    long byte1 = escreverPage(indexFile,Page); // registra o byte da página antiga
+    over->filhos[0] = byte1;
+
+    long byte2 = escreverPage(indexFile,newPage);  //registra o byte da nova página
+    over->filhos[1] = byte2;
+
+    return over;
+}
+
+void addIndexOverPage(INDEXOVERFLOW* over, PAGE* page){
+    if(page->numberOfIndex < NUMAXINDEX){ // se tiver espaço na página, adiciona o index.
+        INDEX aux;
+        aux.id = over->id;
+        aux.byteOffset = over->byteOffset;
+        long  auxFilho;
+        BOOL addfilho0 =true;
+
+        for(int i=0;i<NUMAXINDEX;i++){
+
+            if(page->index[i].id == -1){//se page->index[i]=vazio,add o index
+                page->index[i].id = over->id;
+                page->index[i].byteOffset = over->byteOffset;
+                page->filhos[i]=over->filhos[0];
+                page->filhos[i+1]=over->filhos[1];
+
+                break;
+            }else if(page->index[i].id == index->id){// index já existe 
+                printf("O Registro ja existe!\n");
+                break;
+            }else if(page->index[i].id > index->id){
+                INDEX* aux2 = &page->index[i];
+                page->index[i]=aux;
+                index = aux2;
+
+                if(addfilho0){
+                    page->filhos[i]= over->filhos[0];
+                    addfilho0 = false;
+                }else{
+                    auxFilho = page->file[i];
+                    page->file[i] = over->filhos[1];
+                    over->filhos[1]= auxFilho;
+                }
+
+            }
+        }
+    }else{
+        // se pagina estiver cheia
+    }
 }
 
 void addIndex(INDEX* index, PAGE* page,FILE* indexFile){
     if(page->ehFolha == true){
-        if(page->numberOfIndex != NUMAXINDEX){//se a pagina n tiver cheia
+        if(page->numberOfIndex < NUMAXINDEX){//se a pagina n tiver cheia
             addIndexPage(index,page);
             page->numberOfIndex++;
         }else{
+            
+            
             //add cógio para lidar com o overflow
         }
         
-    }else{
-        if (page->index[NUMAXINDEX]->id == index->id){
+    }else{ //se a page não for flha percorre a arvore até acha a folha
+        if (page->index[NUMAXINDEX].id == index->id){
                 printf("O Registro ja existe!\n");
-        }else if (page->index[NUMAXINDEX]->id == index->id){
+        }else if (page->index[NUMAXINDEX].id == index->id){
             PAGE pageNew = abrirPage(indexFile, page->filhos[NUMAXINDEX]);
             addIndex(index, pageNew, indexFile);
         }
         for(int i=0;i<NUMAXINDEX;i++){
-            if(page->index[i]->id == index->id){
+            if(page->index[i].id == index->id){
                 printf("index ja existe\n");
                 break;
-            }else if(page->index[i]->id > index->id){
+            }else if(page->index[i].id > index->id){
                 PAGE pageNew = abrirPage(indexFile, page->filhos[i]);
                 addIndex(index, pageNew, indexFile);
             } 

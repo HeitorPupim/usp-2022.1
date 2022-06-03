@@ -5,9 +5,6 @@
 #include <util.h>
 #include <insert.h>
 
-
-
-
 int main(){
 
 /*
@@ -27,8 +24,7 @@ int main(){
     obs:
 
     1. Cada nó, quando carregado na memória, pode ser armazenado em uma TAD.
-    2. 
-    utilizar 4096 bytes no arquivo
+    2. utilizar 4096 bytes no arquivo
 */
     FILE* file = abrirArquivo();
     char operacao[6]; 

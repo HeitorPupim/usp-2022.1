@@ -1,7 +1,5 @@
 #include <cabecalho.h>
 
-
-
 void lerRegistros(FILE* file,long byteOffset){
     if(byteOffset != -1){
         REGISTRO* reg = (REGISTRO*)malloc(sizeof(REGISTRO));
