@@ -1,0 +1,11 @@
+A constructor in Java is a special method that is used to initialize objects. 
+The constructor is called when an object of a class is creatd
+Java Constructor - Javatpointhttps://www.javatpoint.com › java
+-constructor
+In Java, a constructor is a block of codes similar to the meth
+od. It is called when an instance of the class is created. At the time of calling constructor, ...
+Providing Constructors for Your Classes (The Java™ Tutorials .
+..https://docs.oracle.com › javase › tutorial › java › javaOO
+As with methods, the Java platform differentiates constructors 
+on the basis of the number of arguments in the list and their types. 
+You cannot write two ...
