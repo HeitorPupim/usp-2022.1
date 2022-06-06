@@ -1,4 +1,6 @@
-public class Endereco {
+import java.io.Serializable;
+
+public class Endereco implements Serializable{
    
    public String rua, bairro, cidade, CEP;
 
@@ -64,6 +66,7 @@ public class Endereco {
       return this;
    }
 
+
    @Override
    public String toString() {
       return "{" +
@@ -73,6 +76,7 @@ public class Endereco {
          ", CEP='" + getCEP() + "'" +
          "}";
    }
+   
 
 
 }

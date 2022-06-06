@@ -1,4 +1,6 @@
-public class DadosPessoais {
+import java.io.Serializable;
+
+public class DadosPessoais implements Serializable {
    
    public String CPF, nome, sobrenome, numCelular;
 
@@ -7,11 +9,12 @@ public class DadosPessoais {
    public DadosPessoais() {
    }
 
-   public DadosPessoais(String CPF, String nome, String sobrenome, String numCelular) {
+   public DadosPessoais(String CPF, String nome, String sobrenome, String numCelular, Endereco endereco) {
       this.CPF = CPF;
       this.nome = nome;
       this.sobrenome = sobrenome;
       this.numCelular = numCelular;
+      this.endereco = endereco;
    }
 
    public String getCPF() {
@@ -66,13 +69,19 @@ public class DadosPessoais {
       return this;
    }
 
-   @Override
+
+   public void setEndereco(Endereco endereco) {
+      this.endereco = endereco;
+   }
    public String toString() {
-      return "{" +
+      return "Tipo da Classe (this.getClass): " + this.getClass() + "\n"+ 
+         "Atributos da Classe: \n" + 
+         "{" +
          " CPF='" + getCPF() + "'" +
          ", nome='" + getNome() + "'" +
          ", sobrenome='" + getSobrenome() + "'" +
          ", numCelular='" + getNumCelular() + "'" +
+         ", endereco='" + this.endereco + "'" +
          "}";
    }
   
