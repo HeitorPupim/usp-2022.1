@@ -22,7 +22,7 @@ public class App {
         //cria o buffer
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        MeuReadLine readLineZika = new MeuReadLine(bufferedReader);
+        MeuReadLineNumberReader readLineZika = new MeuReadLineNumberReader(bufferedReader);
 
         String line;
         while ((line = readLineZika.readLine()) != null){
