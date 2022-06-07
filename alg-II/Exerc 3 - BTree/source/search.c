@@ -1,4 +1,5 @@
 #include <cabecalho.h>
+#include <insert.h>
 
 void lerRegistros(FILE* file,long byteOffset){
     if(byteOffset != -1){
@@ -24,26 +25,26 @@ void lerRegistros(FILE* file,long byteOffset){
 
         printf("-------------------------------\n");
         free(reg);
+    }else{
+        printf("Registro nao encontrado!\n");
     }
 
 }
-/*
-long search(int id, INDEX* noCabeca){
-    INDEX* index =noCabeca;
-    //INDEX* index= (INDEX*)malloc(sizeof(INDEX));
-    index = noCabeca;
-    do{
-        if(index->id == id){
-            long byteOffset = index->byteOffset;
+
+long search(int id, PAGE* pageCabeca, FILE* indexFile){
+    long byteOffset;
+    for(int i=0;i<NUMAXINDEX;i++){
+        if(pageCabeca->index[i].id == id){
+            byteOffset= pageCabeca->index[i].byteOffset; 
             return byteOffset;
-        }else{
-            if(index->proxIndex ==NULL){
-                printf("Registro nao encontrado!\n");
-                return -1;
-            }else{
-                index= index->proxIndex;
+            
+        }else if(pageCabeca->index[i].id > id){
+            if (pageCabeca->filhos[i] != -1){
+                PAGE *pageNew = abrirPage(indexFile, pageCabeca->filhos[i]);
+                byteOffset= search(id,pageNew, indexFile);
+                return byteOffset;
             }
-        }
-    }while(1==1);
+        } 
+    }
+    return byteOffset = -1;
 }  
-*/
