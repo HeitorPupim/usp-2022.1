@@ -1,7 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 
-public class FilterNameFiles {
+public class RemoveSelectedFiles {
 
    public void removeFilesByName(ArrayList<File> files,String flag){
 

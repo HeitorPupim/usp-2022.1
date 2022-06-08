@@ -1,10 +1,7 @@
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.imageio.stream.FileImageInputStream;
-import javax.sound.midi.Soundbank;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -33,7 +30,7 @@ public class App {
         ArrayList<File> arquivosMP3 = new ArrayList<File>();
 
         //ScanFiles retorna um ArrayList<File> dos arquivos encontrados que terminam com ".mp3"
-        ScanFiles scanfile = new ScanFiles();
+        ScanFileByKind scanfile = new ScanFileByKind();
         arquivosMP3 = scanfile.getFileNameList(diretorio, ".mp3");
         
 
@@ -45,7 +42,7 @@ public class App {
 
         System.out.println("Removendo arquivos que contém  - : ");
         //remove do ArrayList e do diretório os arquivos q contém "-"
-        FilterNameFiles filterNameFiles = new FilterNameFiles();
+        RemoveSelectedFiles filterNameFiles = new RemoveSelectedFiles();
         filterNameFiles.removeFilesByName(arquivosMP3, "-");
         
         System.out.println("\n------------------------\n");
@@ -56,20 +53,19 @@ public class App {
 
         System.out.println("\n------------------------\n");
         System.out.println("Ordenando arquivos pelo tamanho.");
-        //ordena os arquivos conforme o tamanho.
-        arquivosMP3.sort((musica1,musica2)-> Long.compare(musica1.length(), musica2.length()));
-
+        
+         
+        //ordena os arquivos conforme o tamanho. SortFileBySize implements Comparator<File>
+        Collections.sort(arquivosMP3, new SortFileBySize());
         System.out.println("\n------------------------\n");
 
-        System.out.println("Arquivos Ordenados pelo nome: ");
+        System.out.println("Arquivos Ordenados pelo tamanho: ");
         //printa o nome dos arquivos c/ tamanho.
         for (File arquivo : arquivosMP3){
             System.out.println(arquivo.getName() + " ---length =  " +arquivo.length());
         }
 
-        
         //fazendo um teste dos arquivos criados.
-        
         String[] counter=new String[10000];
         for (int i = 0; i < arquivosMP3.size(); i++) {
             counter[i] = String.format("%04d", i + 1); 
