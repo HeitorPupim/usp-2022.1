@@ -4,6 +4,7 @@
 #include <search.h>
 #include <util.h>
 #include <insert.h>
+#include <update.h>
 
 int main(){
 
@@ -25,39 +26,52 @@ int main(){
 
     1. Cada nó, quando carregado na memória, pode ser armazenado em uma TAD.
     2. utilizar 4096 bytes no arquivo
+
 */
+
     FILE* file = abrirArquivo();
-    char operacao[6]; 
+    FILE* indexFile = abrirIndexFile();
+    char operacao[6];
     int id;
-    long byteOffset;
-    int fim=0;
-
-    INDEX* no =criarIndex();
-
+    BOOL fim = false;
+    PAGE* pageCabeca = criarPage();
+    INDEX* index;
+    INDEXOVERFLOW* aux;
     do{
         scanf("%s",operacao);
         switch(operacao[0]){
             case('i'): //insert
-                insert(file, no);
+                //printf("case: insert\n");
+                index = insert(file);
+                //printf("index id: %i\n",index->id);
+                //printf("index byt: %li\n",index->byteOffset);
+                aux = addIndex(index,pageCabeca,indexFile);
+                if (aux != NULL){
+                    pageCabeca = atualizarPageCabeca(aux);
+                }
+                //printf("FIM DO INSERT\n\n\n");
                 break;
             case('s'): //search
                 scanf("%d",&id);
-                byteOffset=search(id,no); 
-                lerRegistros(file,byteOffset);
+                long byteOffset=search(id,pageCabeca, indexFile);
+                lerRegistros(file, byteOffset);
+                
                 break;
-            case('d'): //delete
-                scanf("%d",&id);
-                deletarRegistro(file, id, no);
-                break;
+            
             case('u'): //update
+                scanf("%d",&id);
+                update(id,pageCabeca, indexFile, file);
     	        //qnd implementar a função de update, colocar as funçoes aqui.
                 break;
             case('e'): //exit
-                sair(file,no);
-                fim = 1; //sinalizador para o do while
+                //printf("SAIDA\n");
+                //sair(file,no);
+                fim = true; //sinalizador para o do while
                 break;
-        }   
-    }while(fim == 0);
+        }  
+
+
+    }while(fim == false);
 
     return EXIT_SUCCESS;
 }
