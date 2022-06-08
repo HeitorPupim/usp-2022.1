@@ -1,7 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 
-public class ScanFiles {
+public class ScanFileByKind {
    
    public ArrayList<File> getFileNameList(String filePath, String fileKind){
 
