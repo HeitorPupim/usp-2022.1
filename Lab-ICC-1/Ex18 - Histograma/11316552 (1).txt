@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main() {
+
+    int pixels[25], cores[5] = {0};
+
+    for (int pixel = 0; pixel < 25; pixel++) {
+        scanf("%d", &pixels[pixel]); // Lê cada entrada
+        cores[pixels[pixel]]++; // Incrementa a cor contida em pixels[pixel] no vetor cores
+    }
+    int maior_repet = 0, cor_maior;
+    for (int cor = 0; cor < 5; cor++) {
+        // Para cada cor, vai printar o numero da cor e a quantidade de ocorrências(cada # = 1)
+        printf("%d: |", cor);
+        for (int quantidade = 0; quantidade < cores[cor]; quantidade++) {
+            printf("#");
+        }
+        printf("\n");
+        /*
+            Aproveitando este loop, já determinará o seguinte:
+            Dadas as cores, vai analisar qual tem maior ocorrência em quantidade e o tipo dela
+            maior_repet = numero de repeticões
+            cor_maior = tipo da cor com mais repetições
+        */
+        if (cores[cor] >= maior_repet) {
+            maior_repet = cores[cor];
+            cor_maior = cor;
+        }
+    }
+    for (int pixel = 0; pixel < 25; pixel++) {
+        // Passa por todos os pixels
+        if (pixels[pixel] == cor_maior) {
+            // Se a cor bater, imprime a posição
+            // Prints ficam naturalmente ordenados de forma crescente
+            printf("%d\n", pixel);
+        }
+    }
+    return 0;
+}
