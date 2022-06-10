@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void imprime_matriz(int);
+void fisica();
+void troca(int, int, int, int);
+
+char matriz[32][65];
+char matriz_copia[32][64];
+
+int main() {
+    int num_frames, frame, x, y;
+    char particula;
+
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 65; j++) {
+            // Loop para inicializar a matriz com ' ', colocando \0 na ultima coluna
+            if (j == 64) {
+                matriz[i][j] = '\0';
+            } else {
+                matriz[i][j] = ' ';
+            }
+        }
+    }
+
+    scanf("%d", &num_frames);
+
+    int contador = 0;
+    while (contador < num_frames) {
+        int leitura = scanf(" %d: %d %d %c", &frame, &x, &y, &particula);
+
+        if (leitura == EOF) {
+            // Quando for EOF, sai do loop
+            frame = num_frames;
+        }
+        while (contador < frame) {
+            // Para cada iteração, imprime a matriz, adicionando a física na próxima iteração
+            imprime_matriz(contador);
+            fisica();
+            contador++;
+        }
+        if (leitura != EOF) {
+            // Não sendo EOF, adiciona na matriz a partícula
+            matriz[y][x] = particula;
+        }
+    }
+
+    return EXIT_SUCCESS;
+}
+
+void fisica() {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 64; j++) {
+            // Loop para fazer uma cópia da matriz
+            matriz_copia[i][j] = matriz[i][j];
+        }
+    }
+
+    for (int y = 0; y < 32; y++) {
+        for (int x = 0; x < 64; x++) {
+            if (matriz[y][x] == '#') {
+                // Se for areia, checa se é água ou ar
+                // A checagem das bordas se encontra na função troca
+                if (matriz[y+1][x] == '~' || matriz[y+1][x] == ' ') {
+                    troca(x, y, x, y+1);
+                } else if (matriz[y+1][x-1] == '~' || matriz[y+1][x-1] == ' ') {
+                    troca(x, y, x-1, y+1);
+                } else if (matriz[y+1][x+1] == '~' || matriz[y+1][x+1] == ' ') {
+                    troca(x, y, x+1, y+1);
+                }
+            } else if (matriz[y][x] == '~') {
+                // Se for água, checa se é ar
+                // Checa, ainda, se é borda. Caso seja, não fará a troca
+                // Nesse caso foi necessário checar nos ifs, pois alguns ifs eram aceitos
+                // sem essas condições
+                if (matriz[y+1][x] == ' ' && y+1 < 32) {
+                    troca(x, y, x, y+1);
+                } else if (matriz[y+1][x-1] == ' ' && y+1 < 32 && x-1 >= 0) {
+                    troca(x, y, x-1, y+1);
+                } else if (matriz[y+1][x+1] == ' ' && y+1 < 32 && x+1 < 64) {
+                    troca(x, y, x+1, y+1);
+                } else if (matriz[y][x-1] == ' ' && x-1 >= 0) {
+                    troca(x, y, x-1, y);
+                } else if (matriz[y][x+1] == ' ' && x+1 < 64) {
+                    troca(x, y, x+1, y);
+                }
+            }
+        }
+    }
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 64; j++) {
+            // Salva a cópia na matriz original
+            matriz[i][j] = matriz_copia[i][j];
+        }
+    }
+}
+
+void troca(int x1, int y1, int x2, int y2) {
+    // Checa as condições caso seja detectado uma borda
+    if (x2 < 64 && x2 >= 0 && y2 < 32) {
+        // Faz a troca entre 2 posições da matriz_copia
+        char aux = matriz_copia[y1][x1];
+        matriz_copia[y1][x1] = matriz_copia[y2][x2];
+        matriz_copia[y2][x2] = aux;
+    }
+}
+
+void imprime_matriz(int contador) {
+    printf("frame: %d\n", contador + 1);
+    for (int i = 0; i < 32; i++) {
+        // Loop para imprimir as linhas
+        printf("%s\n", matriz[i]);
+    }
+}
