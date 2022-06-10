@@ -1,6 +1,6 @@
-#include "cabecalho.h"
+#include <cabecalho.h>
 #include <insert.h>
-#include <util.h>
+// #include <util.h>
 
 FILE* abrirArquivo(){
     FILE* arquivo = fopen("bin.data","w+b");
