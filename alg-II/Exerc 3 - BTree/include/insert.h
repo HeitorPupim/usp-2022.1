@@ -32,6 +32,8 @@ PAGE* abrirPage(FILE* indexFile, long byteOffset);
 
 long escreverPage(FILE* indexFile, PAGE* page);
 
+void atualizarPage(FILE* indexFile, PAGE* page,long byteOffset);
+
 INDEXOVERFLOW* criarIndexOverflow();
 
 PAGE* atualizarPageCabeca(INDEXOVERFLOW * index);

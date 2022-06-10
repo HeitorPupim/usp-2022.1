@@ -25,7 +25,7 @@ typedef struct page_st {
     INDEX index[NUMAXINDEX] ;
     long filhos[NUMAXINDEX+1] ;
     short numberOfIndex ;
-    BOOL ehFolha ;
+    BOOL ehFolha;
 } PAGE ;
 
 typedef struct indexOverflow_st {

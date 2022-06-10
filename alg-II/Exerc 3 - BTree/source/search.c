@@ -33,15 +33,19 @@ void lerRegistros(FILE* file,long byteOffset){
 
 long search(int id, PAGE* pageCabeca, FILE* indexFile){
     long byteOffset;
+    
     for(int i=0;i<NUMAXINDEX;i++){
         if(pageCabeca->index[i].id == id){
             byteOffset= pageCabeca->index[i].byteOffset; 
             return byteOffset;
             
-        }else if(pageCabeca->index[i].id > id){
+        }else if(pageCabeca->index[i].id > id ||pageCabeca->index[i].id == -1){
+
             if (pageCabeca->filhos[i] != -1){
                 PAGE *pageNew = abrirPage(indexFile, pageCabeca->filhos[i]);
                 byteOffset= search(id,pageNew, indexFile);
+
+                free(pageNew);
                 return byteOffset;
             }
         } 

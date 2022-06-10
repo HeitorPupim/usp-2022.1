@@ -1,4 +1,4 @@
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <cabecalho.h>
@@ -37,20 +37,18 @@ int main(){
     BOOL fim = false;
     PAGE* pageCabeca = criarPage();
     INDEX* index;
-    INDEXOVERFLOW* aux;
+    INDEXOVERFLOW* aux; 
+
     do{
         scanf("%s",operacao);
         switch(operacao[0]){
             case('i'): //insert
-                //printf("case: insert\n");
                 index = insert(file);
-                //printf("index id: %i\n",index->id);
-                //printf("index byt: %li\n",index->byteOffset);
                 aux = addIndex(index,pageCabeca,indexFile);
                 if (aux != NULL){
                     pageCabeca = atualizarPageCabeca(aux);
                 }
-                //printf("FIM DO INSERT\n\n\n");
+
                 break;
             case('s'): //search
                 scanf("%d",&id);
@@ -62,16 +60,17 @@ int main(){
             case('u'): //update
                 scanf("%d",&id);
                 update(id,pageCabeca, indexFile, file);
-    	        //qnd implementar a função de update, colocar as funçoes aqui.
+
                 break;
             case('e'): //exit
-                //printf("SAIDA\n");
-                //sair(file,no);
+                free(pageCabeca);
+                fclose(file);
+                fclose(indexFile);
                 fim = true; //sinalizador para o do while
                 break;
         }  
-
-
+        
+    
     }while(fim == false);
 
     return EXIT_SUCCESS;

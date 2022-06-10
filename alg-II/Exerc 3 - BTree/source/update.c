@@ -52,11 +52,14 @@ void update(int id, PAGE* pageCabeca, FILE* indexFile, FILE* file){
         if(pageCabeca->index[i].id == id){
             INDEX* index = insertUpdate(file,id);
             pageCabeca->index[i].byteOffset = index->byteOffset;
+            free(index);
             break;
         }else if(pageCabeca->index[i].id > id){
             if (pageCabeca->filhos[i] != -1){
                 PAGE *pageNew = abrirPage(indexFile, pageCabeca->filhos[i]);
                 update(id,pageNew, indexFile, file);
+                atualizarPage(indexFile, pageNew, pageCabeca->filhos[i]);
+                free(pageNew);
                 break;
             }
         } 
