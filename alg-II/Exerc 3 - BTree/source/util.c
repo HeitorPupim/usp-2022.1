@@ -1,4 +1,6 @@
 #include <util.h>
+#include <cabecalho.h>
+
 
 char* readline(char parada){
     char* linha=(char*)malloc(25) ;
@@ -19,3 +21,4 @@ char* readline(char parada){
     
     return linha;
 }//le uma linha de input até parada e salva em uma variavel 
+
