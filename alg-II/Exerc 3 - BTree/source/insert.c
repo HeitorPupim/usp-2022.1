@@ -1,4 +1,3 @@
-#include <cabecalho.h>
 #include <insert.h>
 #include <util.h>
 
@@ -68,7 +67,6 @@ void atualizarPage(FILE* indexFile, PAGE* page,long byteOffset){
     for(int i=0; i<NUMAXINDEX; i++){
         fwrite(&page->filhos[i],sizeof(page->filhos[0]),1,indexFile);
     }
-    //free(page);
 }
 
 INDEXOVERFLOW* criarIndexOverflow(){

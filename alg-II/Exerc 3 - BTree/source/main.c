@@ -9,7 +9,6 @@
 
 int main(){
 
-
     FILE* file = abrirArquivo();
     FILE* indexFile = abrirIndexFile();
     char operacao[6];
