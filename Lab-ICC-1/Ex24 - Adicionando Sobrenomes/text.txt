@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct t_info {
+    char *nome;
+    char **sobrenomes;
+    int num_sobrenomes;
+} info;
+
+info* add_pessoa(info *, int *);
+int ler_nome(info *, int);
+void desalocar(info *, int);
+void algoritmo(info *, int);
+
+int main() {
+    info *pessoa = NULL;
+    int num_pessoas = 0;
+    int controle = 0;
+
+    // Enquanto o controle for diferente de um, adicionará uma pessoa no vetor
+    // e lerá as informações
+    do {
+        pessoa = add_pessoa(pessoa, &num_pessoas);
+        controle = ler_nome(pessoa, num_pessoas - 1);
+    } while (controle != 1);
+
+    algoritmo(pessoa, num_pessoas);
+
+    // Printa os nomes e sobrenomes
+    for (int i = 0; i < num_pessoas; i++) {
+        printf("%s", pessoa[i].nome);
+        for (int j = 0; j < pessoa[i].num_sobrenomes; j++) {
+            printf(" %s", pessoa[i].sobrenomes[j]);
+        }
+        printf("\n");
+    }
+
+    desalocar(pessoa, num_pessoas);
+    return EXIT_SUCCESS;
+}
+
+/*
+Realoca as pessoas de indice impar, alocando um novo espaço nos sobrenomes
+Copia o último sobrenome da pessoa de indice par para o novo espaço alocado
+na pessoa de índice impar
+*/
+void algoritmo(info *pessoa, int num_pessoas) {
+    for (int i = 0; i < num_pessoas - 1; i += 2) {
+        int indice = i + 1;
+        pessoa[indice].sobrenomes = (char **) realloc(pessoa[indice].sobrenomes, sizeof(char *) * (pessoa[indice].num_sobrenomes + 1));
+        pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes] = (char *) malloc (sizeof(char) * (strlen(pessoa[i].sobrenomes[pessoa[i].num_sobrenomes - 1]) + 1));
+        strcpy(pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes], pessoa[i].sobrenomes[pessoa[i].num_sobrenomes - 1]);
+        pessoa[indice].num_sobrenomes++;
+    }
+}
+
+// Realoca o ponteiro de pessoas, adicionando um novo espaço
+// Coloca NULL nos ponteiros da struct, e zera o num_sobrenomes
+// Incrementa a quantidade de pessoas
+info *add_pessoa(info *pessoa, int *num_pessoas) {
+    pessoa = (info *) realloc(pessoa, sizeof(*pessoa) * (*num_pessoas + 1));
+
+    pessoa[*num_pessoas].nome = NULL;
+    pessoa[*num_pessoas].sobrenomes = NULL;
+    pessoa[*num_pessoas].num_sobrenomes = 0;
+
+    (*num_pessoas)++;
+    return pessoa;
+}
+
+// Faz a leitura e escrita dos nomes e sobrenomes
+// Alocando dinamicamente os espaços necessários
+int ler_nome(info *pessoa, int indice) {
+    int controle = 0; // Variável de controle para sair do loop na main
+    int letras = 0;
+
+    char letra = '0'; // Inicializada
+    while (letra != ' ') {
+        // Lê o primeiro nome, alocando dinamicamente até encontrar o espaço
+        // Na última posição, adiciona um '\0'
+        letra = getchar();
+        pessoa[indice].nome = (char *) realloc(pessoa[indice].nome, sizeof(char) * (letras + 1));
+        (letra == ' ') ? (pessoa[indice].nome[letras] = '\0') : (pessoa[indice].nome[letras] = letra);
+        letras++;
+    }
+
+    bool continuar = true;
+    while (continuar) {
+        // Enquanto a bool for true, vai realocar o vetor de string, colocando Null na nova posição
+        pessoa[indice].sobrenomes = (char **) realloc(pessoa[indice].sobrenomes, sizeof(char *) * (pessoa[indice].num_sobrenomes + 1));
+        pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes] = NULL;
+        letras = 0; // Reseta o contador
+        letra = '0'; // Reinicializa a variável
+        while (letra != ' ') {
+            // Lê os chars até encontrar o final, ou um espaço
+            // Para cada char, aloca uma nova posição na string
+            letra = getchar();
+            pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes] = 
+            (char *) realloc(pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes], sizeof(char) * (letras + 1));
+
+            if (letra == ' ' || letra == '\n' || letra == '$') {
+                // Se a letra marcar um final, salva o \0
+                // muda o continuar para false, muda a letra para sair do loop
+                // No caso de ser '$', sai do loop na main
+                pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes][letras] = '\0';
+                if (letra == '$') {
+                    controle = 1;
+                    continuar = false;
+                    letra = ' ';
+                }
+                if (letra == '\n') {
+                    continuar = false;
+                    letra = ' ';
+                }
+            } else {
+                pessoa[indice].sobrenomes[pessoa[indice].num_sobrenomes][letras] = letra;
+            }
+            letras++;
+        }
+        pessoa[indice].num_sobrenomes++; // Incrementa o numero de sobrenomes
+    }
+    return controle;
+}
+
+// Desaloca os espaços alocados na heap
+void desalocar(info *pessoa, int num_pessoas) {
+    for (int i = 0; i < num_pessoas; i++) {
+        free(pessoa[i].nome);
+        for (int j = 0; j < pessoa[i].num_sobrenomes; j++) {
+            free(pessoa[i].sobrenomes[j]);
+        }
+        free(pessoa[i].sobrenomes);
+    }
+    free(pessoa);
+}
