@@ -1,20 +1,15 @@
 package proxy;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-/**
- *
- * @author Junio
- */
 public class ImagemDeFato implements Imagem{
     private String sArquivoDaImagem;
 
+    //construtor.
     public ImagemDeFato(String sAArquivoDaImagem)
     {
         this.sArquivoDaImagem = sAArquivoDaImagem;
 
-        carregaImagemDoDisco();
+        carregaImagemDoDisco(); //printa "Carregando" + string
+        //faz um carregamento...
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ex) {

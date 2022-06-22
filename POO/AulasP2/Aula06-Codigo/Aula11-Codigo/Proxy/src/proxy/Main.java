@@ -1,9 +1,6 @@
 package proxy;
 
-/**
- *
- * @author Junio
- */
+
 public class Main {
 
     public static void main(String[] args) {
