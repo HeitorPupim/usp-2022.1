@@ -28,7 +28,6 @@ public class Exercício4CompletandoAsQuestsDeUmRPGEmProfundidade {
             vertices.add(new Vertex(nome,descricao,x));
         }   
         graph = new DigraphList(vertices);
-        System.out.printf("veetex foram criados\n");
         
         
         int na = scan.nextInt();
@@ -46,7 +45,7 @@ public class Exercício4CompletandoAsQuestsDeUmRPGEmProfundidade {
         
 
         traversalStrategy = new BreadthFirstTraversal(graph);
-        System.out.printf("vertice add com sucesso\n");
+
         traversalStrategy.traverseGraph(graph.getVertices().get(source));
         //traversalStrategy.printDistances();
         //traversalStrategy.printPath();
