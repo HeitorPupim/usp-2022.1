@@ -1,7 +1,5 @@
 package Alg2_Ex4;
 
-import exercício.pkg4.completando.as.quests.de.um.rpg.em.GraphList;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,7 +42,7 @@ public class Exercício4CompletandoAsQuestsDeUmRPGEmProfundidade {
         int source = scan.nextInt();
         
 
-        traversalStrategy = new BreadthFirstTraversal(graph);
+        traversalStrategy = new BuscaEmProfundidade(graph);
 
         traversalStrategy.traverseGraph(graph.getVertices().get(source));
         //traversalStrategy.printDistances();
