@@ -2,9 +2,9 @@ package Alg2_Ex4;
 
 import java.util.*;
 
-public class BreadthFirstTraversal extends TraversalStrategy
+public class BuscaEmProfundidade extends TraversalStrategy
 {
-    public BreadthFirstTraversal(AbstractGraph graph)
+    public BuscaEmProfundidade(AbstractGraph graph)
     {
         super(graph);
     }
