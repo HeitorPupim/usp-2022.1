@@ -2,15 +2,8 @@ package observator;
 
 import java.util.Scanner;
 
-/**
- *
- * @author Junio
- */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         ObjetoObservavel oObservado = new ObjetoObservavel();
         ObjetoObservavel oObservado2 = new ObjetoObservavel();
@@ -30,8 +23,8 @@ public class Main {
             oObservado.setY(scan.nextInt());
             
             oObservado.notifyObservers(oObservado);
-        }
-
+            
+        } 
     }
 
 }

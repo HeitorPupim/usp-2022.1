@@ -1,9 +1,6 @@
 package chainofresponsibility;
 
-/**
- *
- * @author Junio
- */
+
 public abstract class Excecao {
     protected Excecao exSucessor;
 

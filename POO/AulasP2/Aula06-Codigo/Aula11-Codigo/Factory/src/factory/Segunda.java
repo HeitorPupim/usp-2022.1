@@ -7,10 +7,7 @@ package factory;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Junio
- */
+
 public class Segunda extends DiaDaSemana{
    static String sNome = "Segunda";
    ArrayList<Float> lListaDeContasAPagar;

@@ -1,14 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package facade;
 
-/**
- *
- * @author Junio
- */
 public class Main {
     /*Este código é apenas ilustrativo, seu funcionamento adequado não é garantido*/
     public static void main(String[] args) {

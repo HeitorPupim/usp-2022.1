@@ -1,8 +1,5 @@
 package chainofresponsibility;
-/**
- *
- * @author Junio
- */
+
 public class JogadaDeExcecao {
     private int iCode;
 

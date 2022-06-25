@@ -2,10 +2,7 @@ package observator;
 
 import java.util.Observable;
 
-/**
- *
- * @author junio
- */
+
 public class ObjetoObservavel extends Observable{
     private int x;
     private int y;

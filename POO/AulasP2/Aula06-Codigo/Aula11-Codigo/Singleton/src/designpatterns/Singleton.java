@@ -1,10 +1,5 @@
 package designpatterns;
 
-/**
- *
- * @author Junio
- */
-
 public class Singleton {
    private int iId = -1;
    private String sNome = "Unico";

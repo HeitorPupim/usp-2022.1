@@ -3,10 +3,6 @@ package observator;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- *
- * @author junio
- */
 public class ObservadorProduto implements Observer{
     private int iProduto;
 
@@ -18,3 +14,4 @@ public class ObservadorProduto implements Observer{
         System.out.println("------------------------------------------");
     }
 }
+
