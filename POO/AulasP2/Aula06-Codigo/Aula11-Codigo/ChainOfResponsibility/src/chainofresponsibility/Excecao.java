@@ -1,6 +1,5 @@
 package chainofresponsibility;
 
-
 public abstract class Excecao {
     protected Excecao exSucessor;
 

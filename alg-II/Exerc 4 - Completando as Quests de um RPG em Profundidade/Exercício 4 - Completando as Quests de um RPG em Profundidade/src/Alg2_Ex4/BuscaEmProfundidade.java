@@ -21,12 +21,12 @@ public class BuscaEmProfundidade extends TraversalStrategy
         Queue<Vertex> vertexesToVisit = new LinkedList<>();
         vertexesToVisit.add(source);
 
-        recurcao(vertexesToVisit);
+        recursao(vertexesToVisit);
         
         printPath();
     }
     
-    private void recurcao(Queue<Vertex> vertexesToVisit){
+    private void recursao(Queue<Vertex> vertexesToVisit){
         Vertex currentVisitedVertex;
         int currentVisitedVertexIndex;
         while(!vertexesToVisit.isEmpty())
@@ -44,7 +44,7 @@ public class BuscaEmProfundidade extends TraversalStrategy
                     {
                         updateTraversalInfoForVertex(adjacentVertexIndex, currentVisitedVertexIndex);
                         vertexesToVisit.add(adjacentVertex);
-                        recurcao(vertexesToVisit);
+                        recursao(vertexesToVisit);
                     }
                     
                     

@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+float **criar_matriz(float **, int);
+void ler_matriz(float **, int);
+int **ler_ataques(int **, int *, bool *);
+void melhor_ataque(float **, int, int **, int, int);
+void desalocar(float **, int, int **, int);
+
+int main() {
+    int num_tipos, num_ataques = 0, tipo_inimigo;
+    float **matriz = NULL;
+    int **ataques = NULL;
+    bool ler = true;
+
+    scanf("%d", &num_tipos);
+
+    // Cria e lê a matriz com os multiplicadores de dano
+    matriz = criar_matriz(matriz, num_tipos);
+    ler_matriz(matriz, num_tipos);
+
+    // Faz a leitura dos danos e tipos de ataque
+    while (ler) {
+        ataques = ler_ataques(ataques, &num_ataques, &ler);
+    }
+
+    scanf("%d", &tipo_inimigo);
+
+    // Define o melhor ataque e imprime
+    melhor_ataque(matriz, num_tipos, ataques, num_ataques, tipo_inimigo);
+
+    desalocar(matriz, num_tipos, ataques, num_ataques);
+    return EXIT_SUCCESS;
+}
+
+// Faz a alocação dinâmica da matriz de multiplicadores
+float **criar_matriz(float **matriz, int num_tipos) {
+    matriz = (float **) malloc(sizeof(float *) * num_tipos);
+    for (int i = 0; i < num_tipos; i++)
+        matriz[i] = malloc(sizeof(float) * num_tipos);
+    return matriz;
+}
+
+// Faz a leitura da matriz de multiplicadores
+void ler_matriz(float **matriz, int num_tipos) {
+    for (int i = 0; i < num_tipos; i++) {
+        for (int j = 0; j < num_tipos; j++) {
+            scanf("%f", &matriz[i][j]);
+        }
+    }
+}
+
+// Cria e faz a leitura da matriz de dano e tipo
+int **ler_ataques(int **ataques, int *num_ataques, bool *ler) {
+    int valor1, valor2;
+    scanf("%d", &valor1);
+    if (valor1 != -1) {
+        scanf("%d", &valor2);
+
+        ataques = (int **) realloc(ataques, sizeof(int*) * (*num_ataques + 1));
+        ataques[*num_ataques] = (int*) malloc(sizeof(int) * 2);
+
+        ataques[*num_ataques][0] = valor1;
+        ataques[*num_ataques][1] = valor2;
+
+        (*num_ataques)++;
+    } else {
+        // Sai do loop na main
+        *ler = false;
+    }
+
+    return ataques;
+}
+
+// Define o melhor tipo e o maior dano
+void melhor_ataque(float **matriz, int num_tipos, int **ataques, int num_ataques, int tipo_inimigo) {
+    float maior_dano = 0, dano = 0;
+    int melhor_tipo;
+    for (int i = 0; i < num_ataques; i++) { // Para cade ataque
+        // O dano é dado pelo dano (entrada) * multiplicador[tipo_do_ataque][tipo_inimigo]
+        dano = ataques[i][0] * matriz[ataques[i][1]][tipo_inimigo];
+        if (dano > maior_dano) { 
+            maior_dano = dano;
+            melhor_tipo = i;
+        }
+    }
+    printf("O melhor ataque possui indice %d e dano %.2f\n", melhor_tipo, maior_dano);
+}
+
+// Desaloca todos os valores alocados dinamicamente
+void desalocar(float **matriz, int num_tipos, int **ataques, int num_ataques) {
+    for (int i = 0; i < num_ataques; i++) {
+        free(ataques[i]);
+    }
+    for (int i = 0; i < num_tipos; i++) {
+        free(matriz[i]);
+    }
+    free(ataques);
+    free(matriz);
+}

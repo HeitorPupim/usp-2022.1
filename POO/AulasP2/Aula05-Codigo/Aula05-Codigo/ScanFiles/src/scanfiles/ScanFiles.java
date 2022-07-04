@@ -20,7 +20,7 @@ public class ScanFiles {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ScanFiles.scanFiles("c:\\Program Files");
+        ScanFiles.scanFiles(System.getProperty("user.dir") + "/src");
     }
 
     public static void scanFiles(String sAFilePath) {

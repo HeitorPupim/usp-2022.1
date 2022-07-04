@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char *ler_linha(char [], int *);
+
+int main() {
+    char palavra[20], *frase = NULL;
+    int num_tabu = 0;
+
+    scanf("%s\n", palavra);
+    frase = ler_linha(palavra, &num_tabu);
+
+    printf("A palavra tabu foi encontrada %d vezes\n", num_tabu);
+    printf("Frase: %s\n", frase);
+
+    free(frase);
+    return EXIT_SUCCESS;
+}
+
+// Lê a frase, fazendo as operações durante a leitura
+char *ler_linha(char palavra[], int *num_tabu) {
+    char tmp, *frase = NULL, *aux = NULL;
+    int letras = 0, tam_palavra = strlen(palavra);
+
+    do {
+        // Faz a leitura char por char, fazendo alocação dinâmica
+        tmp = getchar();
+        frase = (char *) realloc(frase, sizeof(char) * (letras + 1));
+        frase[letras++] = tmp;
+        
+        // Verificar se tem palavra tabu
+        if (letras >= tam_palavra) {
+            // Ajusta um ponteiro auxiliar para 'tam_palavra' posições antes do fim do vetor
+            aux = frase + letras - tam_palavra;
+            if (strncmp(aux, palavra, tam_palavra) == 0) {
+                // Se achou a palavra, reajusta o vetor
+                (*num_tabu)++;
+                letras -= tam_palavra;
+                frase = (char *) realloc(frase, sizeof(char) * (letras));
+            }
+        }
+
+    } while (tmp != EOF && strchr("$", tmp) == NULL);
+    frase[letras - 1] = '\0'; // Adiciona o \0 no final da string
+
+    return frase;
+}
