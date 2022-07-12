@@ -1,16 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package filetests;
 
 import java.io.Serializable;
 
-/**
- *
- * @author Junio
- */
 public class Circulo implements Serializable{
     float fRaio;
     float fArea;
