@@ -1,0 +1,36 @@
+------------------------------------------------------------------------------------------------------------
+1 - O diagrama UML foi feito automaticamente por um gerador na internet e foi feito para exemplificar rapidamente a herança entre as classes do jogo.
+
+2 - O jogo foi estruturado conforme o original com alguns ajustes de complexidade. 
+	Para passar de fase, ao invés de coletar todos os corações, coletar o baú e entrar na porta, fizemos:
+	Colete todos os corações e coletar o baú -> next level.
+
+3 - Para criar o novo objeto que será inserido no jogo, rode a classe: CriarObjetoSerializável no pacote Auxiliar.
+	Depois, será gerado um arquivo com nome de Link, que será requisitado para inserir no jogo se quiser.
+
+4 - Para inserir o objeto no jogo a qualquer momento, é preciso que clique na célula (0,0) da matriz do jogo com o botão direito do mouse, pois assim abrirá uma janela de arquivos, daí é só selecionar o arquivo gerado em (3), que se chama "Link".
+------------------------------------------------------
+Manual/como jogar 
+------------------------------------------------------
+1 - Para mover o personagem: setinhas
+2 - Salvar o jogo: "S" (obs, o jogo tem um autosave a cada 30 segundos).
+3 - Load game: "L" (retorna na posição em que o jogo foi salvo).
+4 - Proxima fase: "P" (pula a fase para a próxima).
+
+------------------------------------------------------
+Obserações do jogo: 
+------------------------------------------------------
+
+1 - Para rodar o jogo, é bem simples, só precisa abrir o netbeans clicar em Run. (obs: foi buildado em Maeven).
+
+2 - Alguns personagens do jogo tém aparências diferentes.
+
+	1. A "minhoca" tem aparência de gatinho preto.
+
+	2. O "tatu cinza" tem aparencia de porco.
+	
+	3. O blocoMovel tem cor violeta, pois não encontrei um verde para substituir.
+
+3 - Ao abrir o arquivo com nome de "Link", um Boss com a aparencia do Link do Zelda aparece na posiçao (0,0) e começa a correr atrás de Lolo. O boss tem poderes que podem atravessar paredes e outros objetos.
+
+
